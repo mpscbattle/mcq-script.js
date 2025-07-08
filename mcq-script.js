@@ -27,7 +27,11 @@ document.getElementById("questionBank").style.display = "none";
 
 function showQuestion(index) {
   const q = questions[index];
-  let html = `<div class='question'>Q${index + 1}: ${q.question}</div><div class='options'>`;
+  let html = `
+    <div class="question-number">${index + 1}/${questions.length}</div>
+    <div class="question">${q.question}</div>
+    <div class="options">`;
+
   q.options.forEach((opt, i) => {
     let cls = "option";
     if (selectedAnswers[index] === i && !quizLocked[index]) {
@@ -35,10 +39,10 @@ function showQuestion(index) {
     }
     html += `<div class='${cls}' onclick='selectAnswer(${index}, ${i})'>${opt}</div>`;
   });
+
   html += `</div>`;
   quizDiv.innerHTML = html;
 }
-
 function selectAnswer(qIndex, aIndex) {
   if (quizLocked[qIndex]) return;
   selectedAnswers[qIndex] = aIndex;
@@ -97,7 +101,9 @@ function showAnalysis() {
     }
 
     let html = `<div class='analysis-box'>
-      <div><b>Q${i + 1}:</b> ${q.question}</div>`;
+  <div class="question-number">${i + 1}/${questions.length}</div>
+  <div><b>${q.question}</b></div>`;
+    
     q.options.forEach((opt, j) => {
       let cls = "option";
       if (j === q.answer) cls += " correct";
