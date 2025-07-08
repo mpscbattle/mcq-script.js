@@ -53,6 +53,7 @@ function updateTimer() {
   let min = Math.floor(timer / 60);
   let sec = timer % 60;
   timerDiv.textContent = `🕛  ${min}:${sec < 10 ? '0' + sec : sec}`;
+   timer--;
   if (timer < 0) {
     clearInterval(timerInterval);
     submitResults();
