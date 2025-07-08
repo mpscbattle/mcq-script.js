@@ -52,8 +52,7 @@ function selectAnswer(qIndex, aIndex) {
 function updateTimer() {
   let min = Math.floor(timer / 60);
   let sec = timer % 60;
-  timerDiv.textContent = `${min}:${sec < 10 ? '0' + sec : sec}`;
-  timer--;
+  timerDiv.textContent = `🕛  ${min}:${sec < 10 ? '0' + sec : sec}`;
   if (timer < 0) {
     clearInterval(timerInterval);
     submitResults();
@@ -91,12 +90,12 @@ function showAnalysis() {
   container.innerHTML = "";
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "You did not attempt this question ";
+    let feedback = "Not Attempt This Question ";
     let feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
       const isCorrect = userAnswer === q.answer;
-      feedback = isCorrect ? "Your answer is correct" : "Your answer is wrong";
+      feedback = isCorrect ? "Your Answer is Correct" : "Your Answer is Wrong";
       feedbackClass = isCorrect ? "correct-feedback" : "wrong-feedback";
     }
 
