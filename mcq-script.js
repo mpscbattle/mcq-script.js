@@ -1,5 +1,5 @@
 let current = 0, selectedAnswers = [], quizLocked = [], correctCount = 0;
-let timer = 120;
+let timer = 1200;
 let timerStarted = false;
 let timerInterval;
 
@@ -52,7 +52,7 @@ function selectAnswer(qIndex, aIndex) {
 function updateTimer() {
   let min = Math.floor(timer / 60);
   let sec = timer % 60;
-  timerDiv.textContent = `Time Left: ${min}:${sec < 10 ? '0' + sec : sec}`;
+  timerDiv.textContent = `${min}:${sec < 10 ? '0' + sec : sec}`;
   timer--;
   if (timer < 0) {
     clearInterval(timerInterval);
