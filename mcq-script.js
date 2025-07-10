@@ -13,6 +13,7 @@ const reportCard = document.getElementById("reportCard");
 const analysisCard = document.getElementById("analysisCard");
 const viewAnalysisBtn = document.getElementById("viewAnalysisBtn");
 const startBtn = document.getElementById("startBtn");
+const onlineTestBtn = document.getElementById("onlineTestBtn"); // NEW: Get the new button element
 
 const questionElements = document.querySelectorAll(".question-data");
 const questions = [];
@@ -126,7 +127,8 @@ startBtn.onclick = () => {
   if (!timerStarted) {
     timerInterval = setInterval(updateTimer, 1000);
     timerStarted = true;
-    startBtn.style.display = 'none';
+    startBtn.style.display = 'none'; // Hide Start Test button
+    onlineTestBtn.style.display = 'inline-block'; // Show Online Test button
   }
 };
 
