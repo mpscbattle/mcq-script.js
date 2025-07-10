@@ -1,5 +1,5 @@
 let current = 0, selectedAnswers = [], quizLocked = [], correctCount = 0;
-let timer = 1200;
+let timer = 1200; // Increased timer to 20 minutes (20 * 60 seconds)
 let timerStarted = false;
 let timerInterval;
 
@@ -13,7 +13,8 @@ const reportCard = document.getElementById("reportCard");
 const analysisCard = document.getElementById("analysisCard");
 const viewAnalysisBtn = document.getElementById("viewAnalysisBtn");
 const startBtn = document.getElementById("startBtn");
-const onlineTestBtn = document.getElementById("onlineTestBtn"); // NEW: Get the new button element
+const onlineTestBtn = document.getElementById("onlineTestBtn");
+const solvedNumberSpan = document.getElementById("solvedNumber"); // Get the solved count span
 
 const questionElements = document.querySelectorAll(".question-data");
 const questions = [];
@@ -26,15 +27,18 @@ questionElements.forEach((qEl) => {
 });
 document.getElementById("questionBank").style.display = "none";
 
+// Initialize solved count
+updateSolvedCount();
+
 function showQuestion(index) {
   const q = questions[index];
   let html = `
-    <div class="question-number">${index + 1}/${questions.length}</div>
     <div class="question">${q.question}</div>
     <div class="options">`;
 
   q.options.forEach((opt, i) => {
     let cls = "option";
+    // Check if the answer is selected for this question
     if (selectedAnswers[index] === i && !quizLocked[index]) {
       cls += " selected";
     }
@@ -43,17 +47,22 @@ function showQuestion(index) {
 
   html += `</div>`;
   quizDiv.innerHTML = html;
+
+  // Update question number in the dedicated span element
+  document.getElementById("questionNumber").textContent = `${index + 1}/${questions.length}`;
 }
+
 function selectAnswer(qIndex, aIndex) {
   if (quizLocked[qIndex]) return;
   selectedAnswers[qIndex] = aIndex;
   showQuestion(current);
+  updateSolvedCount(); // Update solved count whenever an answer is selected
 }
 
 function updateTimer() {
   let min = Math.floor(timer / 60);
   let sec = timer % 60;
-  timerDiv.textContent = `🕛  ${min}:${sec < 10 ? '0' + sec : sec}`;
+  timerDiv.textContent = `🕛 ${min}:${sec < 10 ? '0' + sec : sec}`;
    timer--;
   if (timer < 0) {
     clearInterval(timerInterval);
@@ -61,9 +70,14 @@ function updateTimer() {
   }
 }
 
+function updateSolvedCount() {
+    const attemptedCount = selectedAnswers.filter(v => v !== undefined).length;
+    solvedNumberSpan.textContent = attemptedCount;
+}
+
 function submitResults() {
   clearInterval(timerInterval);
-  quizDiv.innerHTML = "";
+  document.getElementById("quizBox").style.display = 'none'; // Hide quiz box
   reportCard.style.display = 'block';
 
   let attempted = selectedAnswers.filter(v => v !== undefined).length;
@@ -92,7 +106,7 @@ function showAnalysis() {
   container.innerHTML = "";
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "Not Attempt This Question ";
+    let feedback = "Not Attempted";
     let feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
@@ -118,11 +132,24 @@ function showAnalysis() {
   });
 }
 
-prevBtn.onclick = () => { if (current > 0) { current--; showQuestion(current); } };
-nextBtn.onclick = () => { if (current < questions.length - 1) { current++; showQuestion(current); } };
+prevBtn.onclick = () => {
+    if (current > 0) {
+        current--;
+        showQuestion(current);
+    }
+};
+
+nextBtn.onclick = () => {
+    if (current < questions.length - 1) {
+        current++;
+        showQuestion(current);
+    }
+};
+
 submitBtn.onclick = submitResults;
 viewAnalysisBtn.onclick = showAnalysis;
 resetBtn.onclick = () => location.reload();
+
 startBtn.onclick = () => {
   if (!timerStarted) {
     timerInterval = setInterval(updateTimer, 1000);
@@ -132,4 +159,6 @@ startBtn.onclick = () => {
   }
 };
 
+// Initial display
 showQuestion(current);
+updateSolvedCount(); // Ensure solved count is 0 on load
