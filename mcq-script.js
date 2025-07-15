@@ -101,7 +101,7 @@ function submitResults() {
 
 function showAnalysis() {
   analysisCard.style.display = 'block';
-  reportCard.style.display = 'none';
+  // reportCard.style.display = 'none'; // THIS LINE IS REMOVED
   const container = document.getElementById("analysisContent");
   container.innerHTML = "";
   questions.forEach((q, i) => {
