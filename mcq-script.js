@@ -106,7 +106,7 @@ function showAnalysis() {
   container.innerHTML = "";
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "Not Attempted";
+    let feedback = "Question Not Attempted";
     let feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
