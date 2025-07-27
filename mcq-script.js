@@ -160,4 +160,4 @@ startBtn.onclick = () => {
 
 // Initial display
 showQuestion(current);
-updateSolvedCount(); // Ensure solved count is  on load
+// updateSolvedCount(); // Ensure solved count is  on load
